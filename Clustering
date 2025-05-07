@@ -1,0 +1,87 @@
+# A Simple Clustering 
+
+
+You are given much more country data. Using the same methodology as the one in the lecture, group all the countries in 2 clusters. 
+
+Try with other numbers of clusters and see if they match your expectations. Maybe 7 is going to be a cool one!
+
+Plot the data using the <i> c </i> parameter to separate the data by the clusters we defined.  
+
+<i> Note: c stands for color <i>
+
+## Import the relevant libraries
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set()
+from sklearn.cluster import KMeans
+
+## Load the data
+
+Load data from the csv file: <i> 'Countries.csv'</i>.
+
+
+raw_data = pd.read_csv('Countries-exercise.csv')
+raw_data
+
+data= raw_data.copy()
+data
+
+## Plot the data
+
+Plot the <i>'Longtitude'</i> and <i>'Latitude'</i> columns. 
+
+plt.scatter(data['Longitude'], data['Latitude'])
+plt.xlim(-180,180)
+plt.ylim(-90, 90)
+plt.show()
+
+## Select the features
+
+Create a copy of that data and remove all parameters apart from <i>Longitude</i> and <i>Latitude</i>.
+
+x = data.iloc[:,1:3]
+x
+
+## Clustering
+
+Assume there are only two clusters. 
+
+kmeans = KMeans(7)
+
+kmeans.fit(x)
+
+### Clustering Resutls
+
+identifief_clusters = kmeans.fit_predict(x)
+identifief_clusters
+
+data_with_clusters = data.copy()
+data_with_clusters['Cluster'] = identifief_clusters
+data_with_clusters
+
+plt.scatter(data['Longitude'], data['Latitude'],c=data_with_clusters['Cluster'], cmap = 'rainbow')
+plt.xlim(-180, 180)
+plt.ylim(-90, 90)
+plt.show()
+
+
+Try 3 and see if the results match your expectations!
+
+kmeans = KMeans(3)
+
+kmeans.fit(x)
+
+identifief_clusters = kmeans.fit_predict(x)
+identifief_clusters
+
+data_with_clusters = data.copy()
+data_with_clusters['Cluster'] = identifief_clusters
+data_with_clusters
+
+plt.scatter(data['Longitude'], data['Latitude'],c=data_with_clusters['Cluster'], cmap = 'rainbow')
+plt.xlim(-180, 180)
+plt.ylim(-90, 90)
+plt.show()
